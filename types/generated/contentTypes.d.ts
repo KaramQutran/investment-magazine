@@ -799,8 +799,19 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    categoryName: Attribute.String & Attribute.Required;
+    categoryName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     posts: Attribute.Relation<
       'api::category.category',
       'oneToMany',
@@ -811,6 +822,12 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToOne',
       'api::category-group.category-group'
     >;
+    Slug: Attribute.UID<'api::category.category', 'categoryName'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -825,6 +842,12 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::category.category'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -834,13 +857,23 @@ export interface ApiCategoryGroupCategoryGroup extends Schema.CollectionType {
     singularName: 'category-group';
     pluralName: 'category-groups';
     displayName: 'category-group';
-    description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    groupTitle: Attribute.String & Attribute.Required;
+    groupTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     categories: Attribute.Relation<
       'api::category-group.category-group',
       'oneToMany',
@@ -861,6 +894,12 @@ export interface ApiCategoryGroupCategoryGroup extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::category-group.category-group',
+      'oneToMany',
+      'api::category-group.category-group'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -875,8 +914,19 @@ export interface ApiPostPost extends Schema.CollectionType {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    Title: Attribute.String & Attribute.Required;
+    Title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     category: Attribute.Relation<
       'api::post.post',
       'manyToOne',
@@ -889,9 +939,24 @@ export interface ApiPostPost extends Schema.CollectionType {
         'blocks.slider',
         'blocks.video-embed'
       ]
-    >;
-    MetaDescription: Attribute.Blocks;
-    metaImage: Attribute.Media;
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    MetaDescription: Attribute.Blocks &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    metaImage: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -899,6 +964,12 @@ export interface ApiPostPost extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::post.post',
+      'oneToMany',
+      'api::post.post'
+    >;
+    locale: Attribute.String;
   };
 }
 
